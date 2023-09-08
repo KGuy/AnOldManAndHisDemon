@@ -1,6 +1,7 @@
 ﻿public interface ITakesInput {
 
-    void Move(float movement);
+    void MoveSideways(float movement);
+    void MoveForward(float movement);
     void Jump();
     void OnWDown();
     void OnSDown();

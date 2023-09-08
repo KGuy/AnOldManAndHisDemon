@@ -23,10 +23,19 @@ public class InputController : MonoBehaviour {
 
         print(controller);
         if (controller != null) {
+
+            float verticalMovement = Input.GetAxis("Vertical");
+            if (verticalMovement < -movementBuffer || verticalMovement > movementBuffer) {
+                if (debug)
+                    print("MoveVertical: " + verticalMovement);
+                controller.MoveForward(verticalMovement);   // S and W
+            }
+
             float axisVertical = Input.GetAxisRaw("Vertical");
             if (axisVerticalOnDown && axisVertical > 0) controller.OnWDown();
             wDown = WDown();// axisVerticalWhileDown && axisVertical > 0;
             if (wDown) controller.WhileWDown();
+
             if (axisVerticalOnDown && axisVertical < 0) {
                 controller.OnSDown();
                 sTimer = Time.time;
@@ -45,8 +54,8 @@ public class InputController : MonoBehaviour {
             }
             float horizontalMovement = Input.GetAxis("Horizontal");
             if (horizontalMovement < -movementBuffer || horizontalMovement > movementBuffer) {
-                if (debug) print("Move: " + horizontalMovement);
-                controller.Move(horizontalMovement);   // A and D
+                if (debug) print("MoveHorizontal: " + horizontalMovement);
+                controller.MoveSideways(horizontalMovement);   // A and D
             }
 
             if (Input.GetButtonDown("Jump")) {
