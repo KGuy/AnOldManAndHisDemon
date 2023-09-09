@@ -21,12 +21,10 @@ public class GameMasterController : MonoBehaviour
 
     public Vector3 getStartPosition() {
         if (!isPlayer1Activated) {
-            print("here1");
             isPlayer1Activated = true;
             return Player1Position.position;
         }
         if (!isPlayer2Activated) {
-            print("here2");
             isPlayer2Activated = true;
             return Player2Position.position;
         }
