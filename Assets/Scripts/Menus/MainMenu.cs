@@ -10,35 +10,81 @@ public class MainMenu : MonoBehaviour
 {
     public bool gameOn = false;
 
-    public GameObject pauseMenu,
-                      optionsMenu,
-                      creditsMenu,
-                      quitMenu,
-                      quitFromGameOffMenu,
-                      quitFromGameOnMenu;
+    [Space(10)]
+    [Header("Spælobjektir sum hava/eru menuir")]
+    public GameObject pauseMenu;
+    public GameObject optionsMenu;
+    public GameObject creditsMenu;
+    public GameObject quitMenu;
 
-    public GameObject startGameButton,
-                      resumeGameButton,
-                      pauseFirstButton,
-                      optionsFirstButton, 
-                      optionsClosedButton,
-                      creditsFirstButton,
-                      creditsClosedButton,
-                      quitFirstButton,
-                      quitClosedButton;
+    [Space(10)]
+    [Header("Knappar hvørs sjónligheit mugu avgerast dynamiskt.")]
+    // So at sama menu-scenan kann brúkast til at byrja spælið, og til at pausa tað miðskeiðis. Eitt sindur meiri innviklað kanska, men afturfyri býr øll menu kotan/designið á einum stað.
+    public GameObject startGameButton;
+    public GameObject resumeGameButton;
+    // Options knappurin noyðist ikki her tí hann er altíð tøkur tá man trýstur á pausu.
+    public GameObject creditsButton;
+    // quitButton og quitToDesktopButton are needed for similar reasons to startGameButton and resumeGameButton; their applicability/visibility is determined at runtime!
+    public GameObject quitButton;
+    public GameObject quitToDesktopButton;
+
+    [Space(10)]
+    [Header("Knappar sum dynamiskt mugu fokuserast/endur-fokuserast.")]
+    public GameObject optionsFirstButton;
+    public GameObject optionsClosedButton;
+
+    public GameObject creditsFirstButton;
+    public GameObject creditsClosedButton;
+
+    public GameObject quitFirstButton;
+    public GameObject quitClosedButton;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Gongur út frá at allar menuirnar eru deaktiveraðar í "Main Menu" scenuni.
         PauseUnpause();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!pauseMenu.activeInHierarchy && Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Fire3"))
+        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Fire3"))
         {
-            PauseUnpause();
+            // Um valmyndin er deaktivera, so aktiverast hon!
+            if (!pauseMenu.activeInHierarchy)
+            {
+                PauseUnpause();
+            }
+
+            // Um valmyndin er aktivera, so mugu vit avgerða hvat verður gjørt alt eftir hvør sub-valmynd er aktivera.
+            // Um ein ávís valmynd longu er aktiv, íðan so vilja vit deaktivera hana!
+            // Hetta er tað sama sum hendur tá trýst verður á "Back" knøttin, á teimum relevantu valmyndunum.
+            else
+            {   
+                if (optionsMenu.activeInHierarchy)
+                {
+                    CloseOptions();
+                }
+                
+                else if (creditsMenu.activeInHierarchy)
+                {
+                    CloseCredits();
+                }
+
+                else if (quitMenu.activeInHierarchy)
+                {
+                    CloseQuit();
+                }
+
+                // Og um ongin valmynd er aktiv, so vilja vit fjala valmyndina! So at spæli kann halda áfram!
+                // Men hov! Um vit ikki ansa eftir, so er vandi fyri at valmyndin hvørvir áðrenn nakað spæl er startað!
+                // Tískil fjala vit bert valmyndina um eitt spæl er í gongd.
+                else if(gameOn)
+                {
+                    PauseUnpause();
+                }
+            }
         }
     }
 
@@ -65,27 +111,40 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void SetSelectedGameObjectInCurrentEventSystem(GameObject inputGameObject)
+    {
+        // Óforklára arcana í Unity skipanini. Úrvaldaða tingið má "clearast"/nullast áðrenn man ásetur nýtt virðið.
+        EventSystem.current.SetSelectedGameObject(null);
+        // Áseting av úrvaldum tingið í verandi event skipan.
+        EventSystem.current.SetSelectedGameObject(inputGameObject);
+    }
+
     public void PauseUnpause()
     {
         if(!pauseMenu.activeInHierarchy)
         {
             if(gameOn)
             {
-                resumeGameButton.SetActive(true);
                 startGameButton.SetActive(false);
+                resumeGameButton.SetActive(true);
+                // Options knappurin er ikki við her, tí sýni á tí knappinum er ikki tengt at gameOn booleanin.
+                creditsButton.SetActive(false);
+                quitButton.SetActive(true);
+                quitToDesktopButton.SetActive(false);
             }
             else
             {
-                resumeGameButton.SetActive(false);
                 startGameButton.SetActive(true);
+                resumeGameButton.SetActive(false);
+                creditsButton.SetActive(true);
+                quitButton.SetActive(false);
+                quitToDesktopButton.SetActive(true); 
             }
             pauseMenu.SetActive(true);
             Time.timeScale = 0f;
 
-            //Clear selected object. Unexplained arcana of the system.
-            EventSystem.current.SetSelectedGameObject(null);
-            //Set a new slected object
-            EventSystem.current.SetSelectedGameObject(pauseFirstButton);
+            GameObject activeButton = gameOn ? resumeGameButton: startGameButton;
+            SetSelectedGameObjectInCurrentEventSystem(activeButton);
         }
         else
         {
@@ -99,81 +158,81 @@ public class MainMenu : MonoBehaviour
     {
         optionsMenu.SetActive(true);
 
-        //Clear selected object
-        EventSystem.current.SetSelectedGameObject(null);
-        //Set a new slected object
-        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+        SetSelectedGameObjectInCurrentEventSystem(optionsFirstButton);
     }
 
     public void CloseOptions()
     {
         optionsMenu.SetActive(false);
 
-        //Clear selected object
-        EventSystem.current.SetSelectedGameObject(null);
-        //Set a new slected object
-        EventSystem.current.SetSelectedGameObject(optionsClosedButton);
+        SetSelectedGameObjectInCurrentEventSystem(optionsClosedButton);
     }
 
     public void OpenCredits()
     {
         creditsMenu.SetActive(true);
 
-        //Clear selected object
-        EventSystem.current.SetSelectedGameObject(null);
-        //Set a new slected object
-        EventSystem.current.SetSelectedGameObject(creditsFirstButton);
+        SetSelectedGameObjectInCurrentEventSystem(creditsFirstButton);
     }
 
     public void CloseCredits()
     {
         creditsMenu.SetActive(false);
 
-        //Clear selected object
-        EventSystem.current.SetSelectedGameObject(null);
-        //Set a new slected object
-        EventSystem.current.SetSelectedGameObject(creditsClosedButton);
+        SetSelectedGameObjectInCurrentEventSystem(creditsClosedButton);
     }
 
     public void OpenQuit()
     {
-        if (gameOn)
+        if (!gameOn)
         {
-            resumeGameButton.SetActive(true);
-            startGameButton.SetActive(false);
-            quitFromGameOffMenu.SetActive(false);
-            quitFromGameOnMenu.SetActive(true);
+            Debug.LogWarning("Hey! Hey You! How in the blazes did you get here!?");
         }
         else
         {
-            resumeGameButton.SetActive(false);
-            startGameButton.SetActive(true);
-            quitFromGameOffMenu.SetActive(true);
-            quitFromGameOnMenu.SetActive(false);
+            quitMenu.SetActive(true);
         }
 
-        quitMenu.SetActive(true);
-        //Clear selected object
-        EventSystem.current.SetSelectedGameObject(null);
-        //Set a new slected object
-        EventSystem.current.SetSelectedGameObject(quitFirstButton);
+        SetSelectedGameObjectInCurrentEventSystem(quitFirstButton);
     }
 
     public void CloseQuit()
     {
         quitMenu.SetActive(false);
+        SetSelectedGameObjectInCurrentEventSystem(quitButton);
+    }
 
-        //Clear selected object
-        EventSystem.current.SetSelectedGameObject(null);
-        //Set a new slected object
-        EventSystem.current.SetSelectedGameObject(quitClosedButton);
+    public void QuitToMainMenu()
+    {
+
+        if (SceneManager.GetSceneByBuildIndex(1).isLoaded)
+        {
+            quitMenu.SetActive(false);
+
+            try
+            {
+                SceneManager.UnloadSceneAsync(1);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                
+                PauseUnpause();
+                gameOn = false;
+                SetSelectedGameObjectInCurrentEventSystem(startGameButton);
+                PauseUnpause();
+            }
+        }
     }
 
     public void QuitGame()
     {
 #if UNITY_EDITOR
-        // Application.Quit() does not work in the editor so
-        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+        // "Application.Quit()" riggar ikki í ritil(i)num[EN: editor], men bara tá projektið/spælið er kompilerað.
+        // Tískil noyðist "UnityEditor.EditorApplication.isPlaying" setast til "false", fyri at steðga spælinum.
         UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();

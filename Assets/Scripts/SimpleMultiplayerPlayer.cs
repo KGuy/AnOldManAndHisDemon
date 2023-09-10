@@ -8,12 +8,39 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
 
     private const float MOVEMENT_MODIFIER = 30, LOOK_MODIFIER = 2;
     private Vector2 movement, lookDirection;
+    [SerializeField]
     private Gamepad gamepad;
     private Camera camera;
     private GameMasterController controller;
     private Rigidbody rb;
 
+    // Skurðkota START
+    [SerializeField]
+    private PlayerInput playerInput;
+    private int playerIndex;
+    private bool isControlSchemeKeyboardAndMouse;
+    private InputAction m_moveAction;
+    // Skurðkota END
+
     private void Start() {
+        // Skurðkota START
+        playerInput = gameObject.GetComponent<PlayerInput>();
+
+        if (playerInput != null)
+        {
+            playerIndex = playerInput.playerIndex;
+            Debug.Log($"Player#{playerIndex}'s currentControlScheme is {playerInput.currentControlScheme}");
+
+            if (playerInput.currentControlScheme == "Keyboard&Mouse")
+            {
+                isControlSchemeKeyboardAndMouse = true;
+                m_moveAction = playerInput.actions["MovementDPad"];
+                //m_move = m_moveAction.ReadValue<Vector2>();
+            }
+        }
+        // Skurðkota END
+
+
         rb = GetComponent<Rigidbody>();
 
         gamepad = Gamepad.current;
@@ -39,9 +66,11 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
             transform.eulerAngles.z
         );
     }
-
-    public void OnMovementDPad() => movement = gamepad.dpad.ReadValue();
-
+    // Skurðkota START
+    //public void OnMovementDPad() => movement = gamepad.dpad.ReadValue();
+    //Switcharoo!
+    public void OnMovementDPad() => movement = isControlSchemeKeyboardAndMouse ? m_moveAction.ReadValue<Vector2>() : gamepad.dpad.ReadValue();
+    // Skurðkota END
     public void OnMovementAnalog() => movement = gamepad.leftStick.ReadValue();
 
     public void OnLookAnalog() => lookDirection = gamepad.rightStick.ReadValue();
