@@ -6,6 +6,7 @@ public class GameMasterController : MonoBehaviour
 {
     public Transform Player1Position, Player2Position;
     public Sprite player2Sprite, player1Sprite, player2Sprite_Attacking, player1Sprite_Attacking;
+    public AudioClip player1Walking, player2Walking;
 
     private bool isPlayer1Activated, isPlayer2Activated;
 
@@ -32,6 +33,9 @@ public class GameMasterController : MonoBehaviour
             Vector3 temp = players[0].transform.position;
             players[0].transform.position = players[1].transform.position;
             players[1].transform.position = temp;
+
+            players[0].transform.position += Vector3.up;
+            players[1].transform.position += Vector3.up;
         }
     }
 
@@ -43,6 +47,7 @@ public class GameMasterController : MonoBehaviour
             info.spriteAttacking = player1Sprite_Attacking;
             info.playerNumber = 1;
             info.startPosition = Player1Position.position;
+            info.walking = player1Walking;
             return info;
         }
         if (!isPlayer2Activated) {
@@ -51,6 +56,7 @@ public class GameMasterController : MonoBehaviour
             info.spriteAttacking = player2Sprite_Attacking;
             info.playerNumber = 2;
             info.startPosition = Player2Position.position;
+            info.walking = player2Walking;
             return info;
         }
         if (isPlayer1Activated && isPlayer2Activated) throw new System.Exception("Only 2 players allowed.");

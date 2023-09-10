@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.XInput;
 public class SimpleMultiplayerPlayer : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
+    public AudioSource walking, punching, shooting;
 
     private const float MOVEMENT_MODIFIER = 30, LOOK_MODIFIER = 2;
     private Vector2 movement, lookDirection;
@@ -57,6 +58,8 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
         spriteRenderer.sprite = playerInfo.sprite;
 
         gameObject.transform.position = startPosition;
+
+        walking.clip = playerInfo.walking;
     }
 
     public void FixedUpdate() {
@@ -72,6 +75,18 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
             transform.eulerAngles.z
         );
     }
+
+    public void Update() {
+        if (Mathf.Abs(rb.velocity.magnitude) > 0.5f && !walking.isPlaying) {
+            print("here1");
+            walking.Play();
+        }
+        if (Mathf.Abs(rb.velocity.magnitude) < 0.5f && walking.isPlaying) {
+            print("here2");
+            walking.Stop();
+        }
+    }
+
     // Skurðkota START
     //public void OnMovementDPad() => movement = gamepad.dpad.ReadValue();
     //Switcharoo!
