@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 3047179156572733570}
   m_Layer: 0
   m_Name: Player
-  m_TagString: MainCamera
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -544,6 +544,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6740639006434616175}
+  walking: {fileID: 7199497210539657106}
+  punching: {fileID: 964506729890923376}
+  shooting: {fileID: 7642692791602318991}
   playerInput: {fileID: 0}
 --- !u!54 &2353537795470882354
 Rigidbody:
@@ -574,7 +577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bottom: {fileID: 3491259174132812854}
-  rb: {fileID: 0}
+  rb: {fileID: 2353537795470882354}
 --- !u!1 &5227899044754617839
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.XInput;
 public class SimpleMultiplayerPlayer : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
+    public AudioSource walking, punching, shooting;
 
     private const float MOVEMENT_MODIFIER = 30, LOOK_MODIFIER = 2;
     private Vector2 movement, lookDirection;

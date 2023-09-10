@@ -6,4 +6,5 @@ public class PlayerInfo {
     public int playerNumber;
     public Vector3 startPosition;
     internal Sprite spriteAttacking;
+    public AudioClip walking;
 }
