@@ -58,6 +58,8 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
         spriteRenderer.sprite = playerInfo.sprite;
 
         gameObject.transform.position = startPosition;
+
+        walking.clip = playerInfo.walking;
     }
 
     public void FixedUpdate() {
@@ -66,6 +68,12 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
         Vector3 updown = new Vector3(0, rb.velocity.y, 0);
 
         rb.velocity = updown + modifiedForward * movement.y * MOVEMENT_MODIFIER + camera.transform.right * movement.x * MOVEMENT_MODIFIER;
+
+        if (rb.velocity.magnitude > 0.1f && !walking.isPlaying) {
+            walking.Play();
+        } else if (rb.velocity.magnitude < 0.5f) {
+            walking.Stop();
+        }
 
         transform.eulerAngles = new Vector3(
             transform.eulerAngles.x - lookDirection.y * LOOK_MODIFIER,

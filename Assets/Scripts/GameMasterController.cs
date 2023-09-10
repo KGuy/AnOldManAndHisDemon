@@ -33,6 +33,9 @@ public class GameMasterController : MonoBehaviour
             Vector3 temp = players[0].transform.position;
             players[0].transform.position = players[1].transform.position;
             players[1].transform.position = temp;
+
+            players[0].transform.position += Vector3.up;
+            players[1].transform.position += Vector3.up;
         }
     }
 

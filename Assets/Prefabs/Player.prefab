@@ -43,7 +43,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -171,7 +171,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -299,7 +299,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: -4472597160913118672}
   - component: {fileID: 2353537795470882354}
   - component: {fileID: 3047179156572733570}
+  - component: {fileID: -3950997896585061839}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -578,6 +579,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottom: {fileID: 3491259174132812854}
   rb: {fileID: 2353537795470882354}
+--- !u!81 &-3950997896585061839
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5062027600983921548}
+  m_Enabled: 1
 --- !u!1 &5227899044754617839
 GameObject:
   m_ObjectHideFlags: 0
