@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
     public GameObject optionsMenu;
     public GameObject creditsMenu;
     public GameObject quitMenu;
+    public GameObject versionMenu;
 
     [Space(10)]
     [Header("Knappar hvørs sjónligheit mugu avgerast dynamiskt.")]
@@ -92,7 +93,8 @@ public class MainMenu : MonoBehaviour
     {
         if(!gameOn)
         {
-            if(!SceneManager.GetSceneByBuildIndex(1).isLoaded)
+            gameOn = true;
+            if (!SceneManager.GetSceneByBuildIndex(1).isLoaded)
             {
                 try
                 {
@@ -104,7 +106,6 @@ public class MainMenu : MonoBehaviour
                 }
                 finally
                 {
-                    gameOn = true;
                     PauseUnpause();
                 }
             }
@@ -131,6 +132,7 @@ public class MainMenu : MonoBehaviour
                 creditsButton.SetActive(false);
                 quitButton.SetActive(true);
                 quitToDesktopButton.SetActive(false);
+                versionMenu.SetActive(false);
             }
             else
             {
@@ -138,7 +140,8 @@ public class MainMenu : MonoBehaviour
                 resumeGameButton.SetActive(false);
                 creditsButton.SetActive(true);
                 quitButton.SetActive(false);
-                quitToDesktopButton.SetActive(true); 
+                quitToDesktopButton.SetActive(true);
+                versionMenu.SetActive(true);
             }
             pauseMenu.SetActive(true);
             Time.timeScale = 0f;
