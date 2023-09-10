@@ -78,11 +78,9 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
 
     public void Update() {
         if (Mathf.Abs(rb.velocity.magnitude) > 0.5f && !walking.isPlaying) {
-            print("here1");
             walking.Play();
         }
         if (Mathf.Abs(rb.velocity.magnitude) < 0.5f && walking.isPlaying) {
-            print("here2");
             walking.Stop();
         }
     }
