@@ -17,6 +17,7 @@ public class DebugCube : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Havi ikki váttað tað enn; ger so at objektið roterar við "rotationSpeed" gradum per sekund.
         transform.Rotate(rotationSpeed * Time.deltaTime, rotationSpeed * Time.deltaTime, rotationSpeed * Time.deltaTime);
     }
 }
