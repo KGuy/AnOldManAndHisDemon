@@ -69,18 +69,24 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
 
         rb.velocity = updown + modifiedForward * movement.y * MOVEMENT_MODIFIER + camera.transform.right * movement.x * MOVEMENT_MODIFIER;
 
-        if (rb.velocity.magnitude > 0.1f && !walking.isPlaying) {
-            walking.Play();
-        } else if (rb.velocity.magnitude < 0.5f) {
-            walking.Stop();
-        }
-
         transform.eulerAngles = new Vector3(
             transform.eulerAngles.x - lookDirection.y * LOOK_MODIFIER,
             transform.eulerAngles.y + lookDirection.x * LOOK_MODIFIER,
             transform.eulerAngles.z
         );
     }
+
+    public void Update() {
+        if (Mathf.Abs(rb.velocity.magnitude) > 0.5f && !walking.isPlaying) {
+            print("here1");
+            walking.Play();
+        }
+        if (Mathf.Abs(rb.velocity.magnitude) < 0.5f && walking.isPlaying) {
+            print("here2");
+            walking.Stop();
+        }
+    }
+
     // Skurðkota START
     //public void OnMovementDPad() => movement = gamepad.dpad.ReadValue();
     //Switcharoo!
