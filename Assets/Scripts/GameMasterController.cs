@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameMasterController : MonoBehaviour
 {
     public Transform Player1Position, Player2Position;
+    public Sprite player2Sprite, player1Sprite, player2Sprite_Attacking, player1Sprite_Attacking;
+
     private bool isPlayer1Activated, isPlayer2Activated;
 
     private float time;
@@ -33,14 +35,23 @@ public class GameMasterController : MonoBehaviour
         }
     }
 
-    public Vector3 getStartPosition() {
+    public PlayerInfo getStartPosition() {
+        PlayerInfo info = new PlayerInfo();
         if (!isPlayer1Activated) {
             isPlayer1Activated = true;
-            return Player1Position.position;
+            info.sprite = player1Sprite;
+            info.spriteAttacking = player1Sprite_Attacking;
+            info.playerNumber = 1;
+            info.startPosition = Player1Position.position;
+            return info;
         }
         if (!isPlayer2Activated) {
             isPlayer2Activated = true;
-            return Player2Position.position;
+            info.sprite = player2Sprite;
+            info.spriteAttacking = player2Sprite_Attacking;
+            info.playerNumber = 2;
+            info.startPosition = Player2Position.position;
+            return info;
         }
         if (isPlayer1Activated && isPlayer2Activated) throw new System.Exception("Only 2 players allowed.");
         throw new System.Exception("No players instantiated?");

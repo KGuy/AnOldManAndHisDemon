@@ -5,6 +5,7 @@ using UnityEngine.InputSystem.XInput;
 
 public class SimpleMultiplayerPlayer : MonoBehaviour
 {
+    public SpriteRenderer spriteRenderer;
 
     private const float MOVEMENT_MODIFIER = 30, LOOK_MODIFIER = 2;
     private Vector2 movement, lookDirection;
@@ -13,6 +14,7 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
     private Camera camera;
     private GameMasterController controller;
     private Rigidbody rb;
+    private PlayerInfo playerInfo;
 
     // Skurðkota START
     [SerializeField]
@@ -48,7 +50,11 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
 
         GameObject go = GameObject.FindGameObjectWithTag(TagNames.GAME_MASTER);
         controller = go.GetComponent<GameMasterController>();
-        Vector3 startPosition = controller.getStartPosition();
+        playerInfo = controller.getStartPosition();
+
+        Vector3 startPosition = playerInfo.startPosition;
+
+        spriteRenderer.sprite = playerInfo.sprite;
 
         gameObject.transform.position = startPosition;
     }
