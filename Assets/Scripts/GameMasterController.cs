@@ -13,6 +13,12 @@ public class GameMasterController : MonoBehaviour
     private float time;
     private int currentSecond, nextSwapSecond;
 
+    [SerializeField]
+    int numberOfPlayers = 0;
+
+    [SerializeField]
+    GameObject[] players;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,21 +27,33 @@ public class GameMasterController : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        time += Time.deltaTime;
-        if ( time >= 1) {
-            time -= 1;
-            currentSecond++;
-        }
-        if (currentSecond == nextSwapSecond) {
-            currentSecond = 0;
-            nextSwapSecond = Random.Range(3, 11);
-            GameObject[] players = GameObject.FindGameObjectsWithTag(TagNames.PLAYER);
-            Vector3 temp = players[0].transform.position;
-            players[0].transform.position = players[1].transform.position;
-            players[1].transform.position = temp;
 
-            players[0].transform.position += Vector3.up;
-            players[1].transform.position += Vector3.up;
+        if (numberOfPlayers != 2)
+        {
+            players = GameObject.FindGameObjectsWithTag(TagNames.PLAYER);
+            numberOfPlayers = players.Length;
+        }
+
+        else
+        {
+            time += Time.deltaTime;
+            if (time >= 1)
+            {
+                time -= 1;
+                currentSecond++;
+            }
+            if (currentSecond == nextSwapSecond)
+            {
+                currentSecond = 0;
+                nextSwapSecond = Random.Range(3, 11);
+                GameObject[] players = GameObject.FindGameObjectsWithTag(TagNames.PLAYER);
+                Vector3 temp = players[0].transform.position;
+                players[0].transform.position = players[1].transform.position;
+                players[1].transform.position = temp;
+
+                players[0].transform.position += Vector3.up;
+                players[1].transform.position += Vector3.up;
+            }
         }
     }
 
