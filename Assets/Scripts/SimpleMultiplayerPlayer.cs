@@ -7,6 +7,7 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
     public AudioSource walking, punching, shooting;
+    public Vector3 startPosition;
 
     private const float MOVEMENT_MODIFIER = 30, LOOK_MODIFIER = 2;
     private Vector2 movement, lookDirection;
@@ -53,7 +54,7 @@ public class SimpleMultiplayerPlayer : MonoBehaviour
         controller = go.GetComponent<GameMasterController>();
         playerInfo = controller.getStartPosition();
 
-        Vector3 startPosition = playerInfo.startPosition;
+        startPosition = playerInfo.startPosition;
 
         spriteRenderer.sprite = playerInfo.sprite;
 
