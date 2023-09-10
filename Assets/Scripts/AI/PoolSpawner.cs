@@ -18,26 +18,39 @@ public class PoolSpawner : MonoBehaviour
     [SerializeField]
     float secondsBetweenSpawn;
 
+    [SerializeField]
+    int numberOfPlayers = 0;
+
+    [SerializeField]
+    GameObject[] players;
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        elapsedTime += Time.deltaTime;
-
-        if (elapsedTime > secondsBetweenSpawn)
+        if(numberOfPlayers != 2)
         {
-            elapsedTime = 0;
-            Debug.Log(true);
+            players = GameObject.FindGameObjectsWithTag(TagNames.PLAYER);
+            numberOfPlayers = players.Length;
+        }
+        else
+        {
+            elapsedTime += Time.deltaTime;
 
-            if (MonsterReserve > 0)
+            if (elapsedTime > secondsBetweenSpawn)
             {
-                GameObject GO = Instantiate(monsterPrefabs[Random.Range(0, 2)], transform.position + getRandomPosition(6, 0, 6), getRandomRotation());
-                MonsterReserve -= 1;
+                elapsedTime = 0;
+                Debug.Log(true);
+
+                if (MonsterReserve > 0)
+                {
+                    GameObject GO = Instantiate(monsterPrefabs[Random.Range(0, 2)], transform.position + getRandomPosition(6, 0, 6), getRandomRotation());
+                    MonsterReserve -= 1;
+                }
             }
         }
     }
