@@ -84,6 +84,7 @@ public class MainMenu : MonoBehaviour
                 else if(gameOn)
                 {
                     PauseUnpause();
+                    versionMenu.SetActive(false);
                 }
             }
         }
@@ -94,6 +95,7 @@ public class MainMenu : MonoBehaviour
         if(!gameOn)
         {
             gameOn = true;
+            versionMenu.SetActive(false);
             if (!SceneManager.GetSceneByBuildIndex(1).isLoaded)
             {
                 try
